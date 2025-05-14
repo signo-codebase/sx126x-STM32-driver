@@ -15,23 +15,27 @@
 #include "stm32xxxx_hal_gpio.h"		// change for a particular stm32 microcontroller
 
 typedef struct sx126x_hw_pin_s{
-	uint16_t Pin;
-	GPIO_TypeDef *Port;
+	uint16_t pin;
+	GPIO_TypeDef *port;
 } sx126x_hw_pin_t;                             
 
 typedef struct sx126x_hw_s{
-	sx126x_hw_pin_t RESET_Pin;
-	sx126x_hw_pin_t NSS_Pin;
-    sx126x_hw_pin_t BUSY_Pin;
-    sx126x_hw_pin_t	DIO_1;
-	sx126x_hw_pin_t DIO_2;
-	sx126x_hw_pin_t DIO_3;
+	sx126x_hw_pin_t nreset;
+	sx126x_hw_pin_t nss;
+    sx126x_hw_pin_t busy;
+    sx126x_hw_pin_t	dio1;
+	sx126x_hw_pin_t dio2;
+	sx126x_hw_pin_t dio3;
 	SPI_HandleTypeDef *hspi;
 } sx126x_hw_t;
 
 typedef enum _DIOx {
-    DIO1, DIO2, DIO3
+    DIO1 = 1, DIO2 = 2, DIO3 = 3
 } sx126x_DIOx_t;
+
+typedef enum BUSY_state_e {
+	BUSY_STATE_FREE = 0, BUSY_STATE_BUSY = 1
+} BUSY_state_t
 
 
 /**
@@ -60,7 +64,7 @@ void sx126x_hw_SetNSS(sx126x_hw_t *hw, int value);
  *
  * \param[in]    hw 		Pointer to hardware structure.	      
  */
-GPIO_PinState sx126x_hw_BUSY_state(sx126x_hw_t *hw);
+BUSY_state_t sx126x_hw_BUSY_state(sx126x_hw_t *hw);
 
 /**
  * \brief Resets LoRa module
@@ -72,14 +76,14 @@ GPIO_PinState sx126x_hw_BUSY_state(sx126x_hw_t *hw);
 void sx126x_hw_Reset(sx126x_hw_t *hw);
 
 /**
- * \brief Send command via SPI.
+ * \brief Send command via SPI in an incredibly BLOCKING way
  *
  * Send single byte via SPI interface.
  *
  * \param[in]   hw 		Pointer to hardware structure
  * \param[in]   cmd		Command
  */
-void sx126x_hw_SPICommand(sx126x_hw_t *hw, uint8_t cmd);
+void sx126x_hw_SendCommand_blocking(sx126x_hw_t *hw, uint8_t cmd);
 
 /**
  * \brief Reads data via SPI
@@ -90,7 +94,7 @@ void sx126x_hw_SPICommand(sx126x_hw_t *hw, uint8_t cmd);
  *
  * \return				Read value
  */
-uint8_t sx126x_hw_SPIReadByte(sx126x_hw_t *hw);
+uint8_t sx126x_hw_ReadByte_blocking(sx126x_hw_t *hw);
 
 /**
  * \brief ms delay
@@ -111,8 +115,6 @@ void sx126x_hw_DelayMs(uint32_t msec);
  * \return				0 if DIO0 low, 1 if DIO high
  */
 GPIO_PinState sx126x_hw_GetDIOx(sx126x_hw_t *hw, sx126x_DIOx_t DIO);
-
-
 
 
 #endif
