@@ -117,4 +117,7 @@ void sx126x_hw_DelayMs(uint32_t msec);
 GPIO_PinState sx126x_hw_GetDIOx(sx126x_hw_t *hw, sx126x_DIOx_t DIO);
 
 
+// TODO: sx126x_set_dio2_as_rf_sw_ctrl()
+
+
 #endif

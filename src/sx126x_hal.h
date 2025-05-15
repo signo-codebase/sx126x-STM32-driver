@@ -83,7 +83,7 @@ typedef enum sx126x_hal_status_e
  * Radio data transfer - write
  *
  *
- * @param [in] hw               Radio implementation parameters
+ * @param [in] context          Radio implementation parameters
  * @param [in] command          Pointer to the buffer to be transmitted
  * @param [in] command_length   Buffer size to be transmitted
  * @param [in] data             Pointer to the buffer to be transmitted
@@ -91,14 +91,14 @@ typedef enum sx126x_hal_status_e
  *
  * @returns Operation status
  */
-sx126x_hal_status_t sx126x_hal_write( const sx126x_hw_t *hw, const uint8_t* command, const uint16_t command_length,
+sx126x_hal_status_t sx126x_hal_write( const void *context, const uint8_t* command, const uint16_t command_length,
                                       const uint8_t* data, const uint16_t data_length );
 
 /**
  * Radio data transfer - read
  *
  *
- * @param [in] hw          Radio implementation parameters
+ * @param [in] context          Radio implementation parameters
  * @param [in] command          Pointer to the buffer to be transmitted
  * @param [in] command_length   Buffer size to be transmitted
  * @param [in] data             Pointer to the buffer to be received
@@ -106,40 +106,44 @@ sx126x_hal_status_t sx126x_hal_write( const sx126x_hw_t *hw, const uint8_t* comm
  *
  * @returns Operation status
  */
-sx126x_hal_status_t sx126x_hal_read( const sx126x_hw_t *hw, const uint8_t* command, const uint16_t command_length,
+sx126x_hal_status_t sx126x_hal_read( const void *context, const uint8_t* command, const uint16_t command_length,
                                      uint8_t* data, const uint16_t data_length );
 
 /**
  * Reset the radio
  *
  *
- * @param [in] hw Radio implementation parameters
+ * @param [in] context Radio implementation parameters
  *
  * @returns Operation status
  */
-sx126x_hal_status_t sx126x_hal_reset( const sx126x_hw_t *hw );
+sx126x_hal_status_t sx126x_hal_reset( const void *context );
 
 /**
  * Wake the radio up.
  *
  *
- * @param [in] hw Radio implementation parameters
+ * @param [in] context Radio implementation parameters
  *
  * @returns Operation status
  */
-sx126x_hal_status_t sx126x_hal_wakeup( const sx126x_hw_t *hw );
+sx126x_hal_status_t sx126x_hal_wakeup( const void *context );
 
 
 /**
  * @brief Waits on BUSY pin to be low with a timeout
  *
  *
- * @param[in] hw Puntatore al contesto hardware
+ * @param[in] context Puntatore al contesto hardware
  * @param[in] timeout_ms Tempo massimo di attesa in millisecondi.
  * @returns SX126X_HAL_STATUS_OK se il pin BUSY è diventato libero entro il timeout.
  * SX126X_HAL_STATUS_ERROR se il timeout è scaduto prima che il pin diventasse libero.
  */
-sx126x_hal_status_t sx126x_hal_wait_on_busy(const sx126x_hw_t *hw, uint32_t timeout_ms);
+sx126x_hal_status_t sx126x_hal_wait_on_busy(const void *context, uint32_t timeout_ms);
+
+
+// TODO functions for DIOx implementations
+
 
 
 #ifdef __cplusplus

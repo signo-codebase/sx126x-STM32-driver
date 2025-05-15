@@ -14,10 +14,13 @@ void sx126x_hw_init(sx126x_hw_t *hw) {
 	sx126x_hw_SetNSS(hw, 1);
 	HAL_GPIO_WritePin(hw->nreset.port, hw->nreset.pin, GPIO_PIN_SET);
 }
+
+
 void sx126x_hw_SetNSS(sx126x_hw_t *hw, int value) {
 	HAL_GPIO_WritePin(hw->nss.port, hw->nss.pin,
 			(value == 1) ? GPIO_PIN_SET : GPIO_PIN_RESET);
 }
+
 
 BUSY_state_t sx126x_hw_BUSY_state(sx126x_hw_t *hw) {
 
@@ -30,6 +33,8 @@ BUSY_state_t sx126x_hw_BUSY_state(sx126x_hw_t *hw) {
         return BUSY_STATE_FREE; // Pin basso = chip libero
     }
 }
+
+
 void sx126x_hw_Reset(sx126x_hw_t *hw) {
 	sx126x_hw_SetNSS(hw, 1); // alto così non interferisce con il reset
 
@@ -40,6 +45,8 @@ void sx126x_hw_Reset(sx126x_hw_t *hw) {
 	HAL_GPIO_WritePin(hw->nreset.port, hw->nreset.pin, GPIO_PIN_SET);     // reset high
 
 }
+
+
 void sx126x_hw_SendCommand_blocking(sx126x_hw_t *hw, uint8_t cmd) {
     
 	HAL_SPI_Transmit(hw->hspi, &cmd, 1, 100);   
@@ -47,6 +54,8 @@ void sx126x_hw_SendCommand_blocking(sx126x_hw_t *hw, uint8_t cmd) {
 	while (HAL_SPI_GetState(hw->hspi) != HAL_SPI_STATE_READY)
 		;
 }
+
+
 uint8_t sx126x_hw_ReadByte_blocking(sx126x_hw_t *hw) {
 	uint8_t txByte = 0x00;
 	uint8_t rxByte = 0x00;
@@ -56,6 +65,8 @@ uint8_t sx126x_hw_ReadByte_blocking(sx126x_hw_t *hw) {
 		;
 	return rxByte;
 }
+
+
 GPIO_PinState sx126x_hw_GetDIOx(sx126x_hw_t *hw, sx126x_DIOx_t DIO) {
     
 	GPIO_PinState pin_state;
@@ -80,3 +91,6 @@ GPIO_PinState sx126x_hw_GetDIOx(sx126x_hw_t *hw, sx126x_DIOx_t DIO) {
 
     return pin_state;
 }
+
+
+// TODO: sx126x_set_dio2_as_rf_sw_ctrl()
