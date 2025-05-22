@@ -1,3 +1,9 @@
+## Consider
+- Change the includes in the sx126x_hw.h for matching microcontroller
+- Barely working library, tested just in received mode
+- No DIO1-DIO2-DIO3 alternate functions nor interrupts implemented
+- Refer mainly to functions inside sx126x.c (implemented by Semtech)
+
 ## Structure
 
 The driver is defined as follows:
