@@ -11,7 +11,7 @@
 #define __SX1278_HW_H
 
 #include <stdint.h>
-#include "stm32f4xx_hal.h" 		// <--- Add this line
+#include "stm32xxxx_hal.h" 			// change for a particular stm32 microcontroller
 #include "stm32xxxx_hal_spi.h"		// change for a particular stm32 microcontroller
 #include "stm32xxxx_hal_gpio.h"		// change for a particular stm32 microcontroller
 
